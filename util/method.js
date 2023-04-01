@@ -21,17 +21,12 @@ function getStorage() {
 // Validation
 
 function kiemTraRong(value,name){
-    if(Number.isInteger(value) || Number.isNaN(value)){
-        if(value === 0) {
-            document.querySelector(`#error-required-${name}`).innerHTML = `${name} không được bỏ trống !`
-            return false;
-        }
-    }else{
-        if(value.trim() === '') {
-            document.querySelector(`#error-required-${name}`).innerHTML = `${name} không được bỏ trống !`
-            return false;
-        }
+    
+    if(value.trim() === '') {
+        document.querySelector(`#error-required-${name}`).innerHTML = `${name} không được bỏ trống !`;
+        return false;
     }
+    
     
     document.querySelector(`#error-required-${name}`).innerHTML = '';
     return true;
