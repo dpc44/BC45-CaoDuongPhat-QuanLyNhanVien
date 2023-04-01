@@ -37,7 +37,8 @@ function validationForm(nhanVien){
     // kiem tra dieu kien (do dai range)
     valid = valid & kiemTraDoDai(nhanVien.taiKhoan, 'taiKhoan', 4, 6)
         & kiemTraRange(nhanVien.luongCB, 'LuongCoBan', 1e+6, 20e+6) & kiemTraRange(nhanVien.gioLam, 'GioLam', 80, 200);
-    
+    //kiem tra date
+    valid = valid & kiemTraDate(nhanVien.datepicker, 'NgayLam');
     return valid;
 }
 function renderNhanVien(arrNV) {
@@ -74,6 +75,7 @@ function renderNhanVien(arrNV) {
 
 function xoaNhanVienTheoMa(taiKhoan) {
     console.log(taiKhoan);
+    
     var indexDel = -1;
     for (var index = 0; index < arrNhanVien.length; index++) {
         var nhanVien = arrNhanVien[index];
@@ -91,12 +93,16 @@ function xoaNhanVienTheoMa(taiKhoan) {
 }
 
 
-function editNhanVien(taiKhoan) {
-    console.log(taiKhoan);
+function editNhanVien(taiKhoan1) {
+    console.log(taiKhoan1);
+    // console.log(arrNhanVien);
     var indexEdit = -1;
+    
     for (var index = 0; index < arrNhanVien.length; index++) {
         var nhanVien = arrNhanVien[index];
-        if (nhanVien.taiKhoan = taiKhoan) {
+        
+        if (nhanVien.taiKhoan == taiKhoan1) {
+            
             indexEdit = index;
             break;
         }
@@ -133,9 +139,11 @@ document.querySelector('#btnCapNhat').onclick = function () {
     nhanVienEdit.gioLam = +document.querySelector('#gioLam').value;
     nhanVienEdit.password = document.querySelector('#password').value;
     var valid;
+    console.log('arrNhanVien.length = ', arrNhanVien.length);
     for (var index = 0; index < arrNhanVien.length; index++) {
         var nhanVien = arrNhanVien[index];
         if (nhanVien.taiKhoan === nhanVienEdit.taiKhoan) {
+            
             nhanVien.taiKhoan = nhanVienEdit.taiKhoan;
             nhanVien.tenNhanVien = nhanVienEdit.tenNhanVien;
             nhanVien.email = nhanVienEdit.email;
@@ -160,6 +168,39 @@ document.querySelector('#btnCapNhat').onclick = function () {
     document.querySelector('form').reset();
     
 }
+
+document.querySelector('#searchName').oninput = function (){
+    var tuKhoa = document.querySelector('#searchName').value.trim();
+    tuKhoa = stringToSlug(tuKhoa);
+    console.log(tuKhoa);
+
+    var arrXepLoaiNV =[];
+    for (var index = 0; index < arrNhanVien.length; index++) {
+        var nhanVien = arrNhanVien[index];
+        var nhanVienNew = new NhanVien();
+        Object.assign(nhanVienNew, nhanVien);
+        if (stringToSlug(nhanVienNew.xepLoai().trim()).search(tuKhoa) !== -1) {
+            arrXepLoaiNV.push(nhanVienNew);
+        }
+    }
+    renderNhanVien(arrXepLoaiNV)
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 getStorage();
 renderNhanVien(arrNhanVien);

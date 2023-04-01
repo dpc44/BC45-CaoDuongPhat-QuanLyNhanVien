@@ -7,7 +7,7 @@ function NhanVien(){
     this.luongCB = 0;
     this.chucvu = '';
     this.gioLam=0;
-
+    this.xepLoai = ''
     this.tongLuong = function(){
         var tongLuong = 0;
         if(this.chucvu === 'Sếp'){
